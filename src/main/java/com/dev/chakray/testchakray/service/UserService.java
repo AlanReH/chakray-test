@@ -118,10 +118,10 @@ public class UserService {
         }
 
         // FILTER
-        if (filter != null && !filter.trim().isEmpty()) {
-            // if (filter.isEmpty()) {
-                // throw new IllegalArgumentException("filter cannot be empty");
-            // }
+        if (filter != null) {
+             if (filter.isEmpty()) {
+                 throw new IllegalArgumentException("missing filter value (cannot be empty)");
+             }
 
             String[] filterParts = filter.contains("+")
                     ? filter.split("\\+")
@@ -167,7 +167,7 @@ public class UserService {
                 .anyMatch(u -> u.getTax_id().equals(user.getTax_id()));
 
         if (exists) {
-            throw new IllegalArgumentException("tax_id must be unique");
+            throw new IllegalArgumentException("User with this tax_id already exists");
         }
 
         user.setId(UUID.randomUUID().toString());
